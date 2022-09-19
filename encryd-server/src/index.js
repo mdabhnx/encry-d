@@ -12,4 +12,6 @@ app.get('/', (_, res) => {
   })
 })
 
+app.use('/v1/encryd', require('./routes/v1/encrypt%decrypt'))
+
 app.listen(process.env.PORT || 8000)
