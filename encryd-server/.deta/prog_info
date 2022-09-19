@@ -1,0 +1,1 @@
+{"id":"9457a607-fed6-4614-9612-258a63c628d1","space":32632,"runtime":"nodejs14.x","name":"encryd-server","path":"zukk96","project":"d0q4a3kp","account":"144798365827","region":"ap-south-1","deps":["cors@^2.8.5","cryptr@^6.0.3","express@^4.18.1"],"envs":null,"public":true,"log_level":"off","cron":""}
