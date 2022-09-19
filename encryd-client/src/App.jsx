@@ -1,12 +1,68 @@
 import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import CopyIcon from './assets/copy.png'
 
 const App = () => {
-  const [content, setContent] = useState(undefined)
-  const [masterKey, setMasterKey] = useState(undefined)
+  const [content, setContent] = useState('')
+  const [masterKey, setMasterKey] = useState('')
   const [btnDisabledStatus, setBtnDisabledStatus] = useState(false)
-  const [contentOutput, setContentOutput] = useState(undefined)
+  const [contentOutput, setContentOutput] = useState('')
+
+  const contentEncryptionHandler = () => {
+    setBtnDisabledStatus(true)
+
+    fetch(`${process.env.REACT_APP_BASE_API_URL}/v1/encryd/encr`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: masterKey,
+      },
+      body: JSON.stringify({
+        content: content,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setBtnDisabledStatus(false)
+        if (res.status === 200) {
+          setContentOutput(res.data.content)
+          toast.success('Encrypt Complete!')
+        }
+      })
+      .catch((err) => {
+        setBtnDisabledStatus(false)
+        console.log(err)
+      })
+  }
+
+  const contentDecryptionHandler = () => {
+    setBtnDisabledStatus(true)
+
+    fetch(`${process.env.REACT_APP_BASE_API_URL}/v1/encryd/decr`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: masterKey,
+      },
+      body: JSON.stringify({
+        content: content,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setBtnDisabledStatus(false)
+        if (res.status === 200) {
+          setContentOutput(res.data.content)
+          toast.success('Decrypt Complete!')
+        }
+      })
+      .catch((err) => {
+        setBtnDisabledStatus(false)
+        console.log(err)
+      })
+  }
 
   return (
     <div
@@ -19,6 +75,15 @@ const App = () => {
         width: '100vw',
       }}
     >
+      <ToastContainer
+        position='top-center'
+        autoClose={1000}
+        hideProgressBar={true}
+        closeOnClick={true}
+        pauseOnHover={false}
+        draggable={false}
+        progress={undefined}
+      />
       <header>Encrypt & Decrypt Your Content</header>
       <span hidden>Welcome Master Hossain</span>
 
@@ -48,7 +113,7 @@ const App = () => {
         />
 
         <input
-          type='text'
+          type='password'
           style={{
             height: '52px',
             width: '30%',
@@ -75,6 +140,7 @@ const App = () => {
               backgroundColor: 'green',
               color: 'wheat',
             }}
+            onClick={() => contentEncryptionHandler()}
             disabled={btnDisabledStatus}
           >
             Encrypt
@@ -90,6 +156,7 @@ const App = () => {
               backgroundColor: 'yellow',
               color: 'black',
             }}
+            onClick={() => contentDecryptionHandler()}
             disabled={btnDisabledStatus}
           >
             Decrypt
@@ -110,7 +177,7 @@ const App = () => {
               justifyContent: 'space-between',
             }}
           >
-            <p>{contentOutput}</p>
+            <p style={{ overflow: 'hidden' }}>{contentOutput}</p>
             <p>
               <img
                 className='copy__icon'
