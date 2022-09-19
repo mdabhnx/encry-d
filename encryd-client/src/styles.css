@@ -7,3 +7,19 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 22px;
 }
+
+button:hover,
+.copy__icon,
+.output__container {
+  cursor: pointer;
+}
+
+.output__container {
+  background: #dbdbdb;
+  transition: 0.8s ease-in-out;
+}
+
+.output__container:hover {
+  background: hsl(120, 100%, 93%);
+  background-color: #00c642;
+}

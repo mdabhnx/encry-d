@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import CopyIcon from './assets/copy.png'
 
 const App = () => {
   const [content, setContent] = useState(undefined)
   const [masterKey, setMasterKey] = useState(undefined)
+  const [btnDisabledStatus, setBtnDisabledStatus] = useState(false)
+  const [contentOutput, setContentOutput] = useState(undefined)
 
   return (
     <div
@@ -57,6 +61,7 @@ const App = () => {
           onChange={(e) => setMasterKey(e.target.value)}
           placeholder='Your Master Key...'
         />
+
         <div
           className='action__container'
           style={{ marginTop: '10px', fontSize: '14px' }}
@@ -70,6 +75,7 @@ const App = () => {
               backgroundColor: 'green',
               color: 'wheat',
             }}
+            disabled={btnDisabledStatus}
           >
             Encrypt
           </button>
@@ -84,11 +90,39 @@ const App = () => {
               backgroundColor: 'yellow',
               color: 'black',
             }}
+            disabled={btnDisabledStatus}
           >
             Decrypt
           </button>
         </div>
       </div>
+
+      {contentOutput && (
+        <CopyToClipboard text={contentOutput}>
+          <div
+            className='output__container'
+            style={{
+              marginTop: '20px',
+              padding: '10px',
+              borderRadius: '4px',
+              width: '50%',
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <p>{contentOutput}</p>
+            <p>
+              <img
+                className='copy__icon'
+                src={CopyIcon}
+                alt='copy-icon'
+                style={{ height: '20px', width: '20px' }}
+                title='Click to copy!!!'
+              />
+            </p>
+          </div>
+        </CopyToClipboard>
+      )}
     </div>
   )
 }
