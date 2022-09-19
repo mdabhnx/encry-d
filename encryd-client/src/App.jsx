@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const App = () => {
+  const [content, setContent] = useState(undefined)
+  const [masterKey, setMasterKey] = useState(undefined)
+
   return (
     <div
       className='main_container'
@@ -35,6 +38,8 @@ const App = () => {
             fontSize: '18px',
             borderRadius: '6px',
           }}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           placeholder='Enter Your Content Here...'
         />
 
@@ -48,6 +53,8 @@ const App = () => {
             borderRadius: '6px',
             marginTop: '10px',
           }}
+          value={masterKey}
+          onChange={(e) => setMasterKey(e.target.value)}
           placeholder='Your Master Key...'
         />
         <div
