@@ -11,6 +11,7 @@ const App = () => {
   const [contentOutput, setContentOutput] = useState('')
 
   const contentEncryptionHandler = () => {
+    setContentOutput('')
     setBtnDisabledStatus(true)
 
     fetch(`${process.env.REACT_APP_BASE_API_URL}/v1/encryd/encr`, {
@@ -25,6 +26,7 @@ const App = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        setMasterKey('')
         setBtnDisabledStatus(false)
         if (res.status === 200) {
           setContentOutput(res.data.content)
@@ -32,12 +34,14 @@ const App = () => {
         }
       })
       .catch((err) => {
+        setMasterKey('')
         setBtnDisabledStatus(false)
         console.log(err)
       })
   }
 
   const contentDecryptionHandler = () => {
+    setContentOutput('')
     setBtnDisabledStatus(true)
 
     fetch(`${process.env.REACT_APP_BASE_API_URL}/v1/encryd/decr`, {
@@ -52,6 +56,7 @@ const App = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        setMasterKey('')
         setBtnDisabledStatus(false)
         if (res.status === 200) {
           setContentOutput(res.data.content)
@@ -59,6 +64,7 @@ const App = () => {
         }
       })
       .catch((err) => {
+        setMasterKey('')
         setBtnDisabledStatus(false)
         console.log(err)
       })
